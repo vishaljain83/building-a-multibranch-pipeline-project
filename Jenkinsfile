@@ -39,5 +39,17 @@ pipeline {
                 sh './jenkins/scripts/kill.sh'
             }
         }
+        post {
+            success {
+                slackSend channel: '#ops-room',
+                          color: 'good',
+                          message: "The pipeline ${currentBuild.fullDisplayName} completed successfully."
+            }
+            failure {
+                slackSend channel: '#ops-room',
+                          color: 'bad',
+                          message: "The pipeline ${currentBuild.fullDisplayName} failed top build."
+            }
+        }
     }
 }
